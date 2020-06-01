@@ -22,10 +22,11 @@ services:
       - DB_PASSWORD=${DB_PASS}
       - TZ=${TZ}
   web:
-    image: nginx:1.17-alpine
-    depends_on:
+    # docker-compose.ymlで定義される各々のサービスは特定のimageかbuildを指定する必要がある
+    image: nginx:1.17-alpine #コンテナを実行時に元となるイメージを指定
+    depends_on: # 指定したコンテナの後に起動をする。ここではappコンテナの後に起動
       - app
-    ports:
+    ports: # ホストのポート番号をコンテナのポート番号に接続する 左ホスト右コンテナ
       - 10080:80
     volumes:
       - ./src:/work
