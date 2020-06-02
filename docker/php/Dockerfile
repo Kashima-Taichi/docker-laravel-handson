@@ -10,8 +10,10 @@ ARG TZ
 # ENVは環境変数キーとバリューのセット
 # 1を設定するとrootでのインストールを許可できる
 ENV COMPOSER_ALLOW_SUPERUSER 1
+# コンポーザーのホームディレクトリを変更
 ENV COMPOSER_HOME /composer
 
+# 既存イメージ上の新しいレイヤで、あらゆるコマンドを実行し、その結果をコミットする
 RUN set -eux && \
     apk add --update-cache --no-cache --virtual=.build-dependencies tzdata && \
     cp /usr/share/zoneinfo/${TZ} /etc/localtime && \
@@ -20,3 +22,28 @@ RUN set -eux && \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer && \
     composer config -g repos.packagist composer https://packagist.jp && \
     composer global require hirak/prestissimo
+
+# set -eux && \ ビルド状況の出力
+# apk add --update-cache --no-cache --virtual=.build-dependencies tzdata && \
+#   add : パッケージの追加、インストール
+#   --update-cache : リモートリポジトリの更新を入手
+#   --no-cache : キャッシュの削除
+#   --virtual=.build-dependencies tzdata : まとめてインストールしたパッケージ群にエイリアスをつける
+# cp /usr/share/zoneinfo/${TZ} /etc/localtime
+#   alpineの/usr/share/zoneinfo/${TZ}を/etc/localtimeにコピーする
+# apk del .build-dependencies && \
+#   エイリアス指定したパッケージをアンインストール
+# docker-php-ext-install bcmath pdo_mysql && \
+#   docker-php-ext-install : コンテナイメージに事前に圧縮されて入っているエクステンションを解凍してインストール。
+#    bcmath : 10桁以上の数字の計算を行うのに便利なモジュール
+#    pdo_mysql : PDO API で MySQL に接続するためのドライバ
+# curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer && \
+#   curl : サーバーから、もしくはサーバーへデータ転送を行うコマンド
+#    -s : 実行中・エラーのメッセージを表示しない
+#    -S : 
+#    -sS https://getcomposer.org/installer : コンポーザーのインストール
+#    | : 標準出力を他のコマンドの標準入力につなげることができる。これをパイプという
+# php -- --install-dir=/usr/bin --filename=composer && \
+# 
+# 
+# 
