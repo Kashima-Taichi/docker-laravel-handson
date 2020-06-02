@@ -44,6 +44,10 @@ RUN set -eux && \
 #    -sS https://getcomposer.org/installer : コンポーザーのインストール
 #    | : 標準出力を他のコマンドの標準入力につなげることができる。これをパイプという
 # php -- --install-dir=/usr/bin --filename=composer && \
-# 
-# 
-# 
+#   --install-dir=/usr/bin : インストールとフォルダの指定
+#   --filename=composer && \ : ファイル名の指定
+# !! 以下の2つのコマンドに関しては、https://qiita.com/keitakn/items/37f0fac49442b72c403eを参考にする !!
+# composer config -g repos.packagist composer https://packagist.jp && \ : packagistのミラーサーバを日本国内のサーバに変更する
+# composer global require hirak/prestissimo : Composerプラグインによる高速化
+#
+#
